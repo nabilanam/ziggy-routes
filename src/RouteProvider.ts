@@ -12,7 +12,7 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
   private static workspacePath = "";
   private static wordRegex = /[\w*\.\-\_]+/;
   private static filterRegex =
-    /[^\w|\*`'"!#%^&\\/+-](?:route\((?:'|"))([\w*\.\-\_]+)(?:'|")?\)?;?$/;
+    /[^\w|\*`'"!#%^&\\/+-](?:route\()((?:'|")[\w*\.\-\_]+(?:'|"))?\)?;?/;
   private static routes: Array<string> = [];
 
   constructor() {
@@ -65,7 +65,14 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
     const text = document.lineAt(position.line).text;
     const matches = RouteProvider.filterRegex.exec(text);
     if (matches && matches.length) {
-      const match = matches[1];
+      let match = matches[1];
+
+      if (text.lastIndexOf(match) + match.length - 1 !== position.character) {
+        return;
+      }
+
+      match = match.replace(/['"]/g, "");
+
       return RouteProvider.routes
         .filter((r) => r.startsWith(match))
         .map((r) => {

@@ -4,7 +4,7 @@
   "description": "Ziggy route completion for vscode",
   "icon": "images/icon.png",
   "publisher": "Nabil",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/nabilanam/ziggy-routes.git"
@@ -12,6 +12,13 @@
   "engines": {
     "vscode": "^1.58.0"
   },
+  "keywords": [
+    "laravel",
+    "vue",
+    "ziggy",
+    "laravel completion",
+    "laravel autocompletion"
+  ],
   "categories": [
     "Programming Languages"
   ],
