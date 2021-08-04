@@ -14,8 +14,11 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
   private static filterRegex =
     /[^\w|\*`'"!#%^&\\/+-](?:route\()((?:'|")[\w*\.\-\_]+(?:'|"))?\)?;?/;
   private static routes: Array<string> = [];
+  private output: vscode.OutputChannel;
 
   constructor() {
+    this.output = vscode.window.createOutputChannel("Ziggy Routes");
+
     if (vscode.workspace.workspaceFolders !== undefined) {
       RouteProvider.workspacePath =
         vscode.workspace.workspaceFolders[0].uri.fsPath;
@@ -37,6 +40,7 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
           routeWatcher.onDidChange(() => this.routeChanged());
           routeWatcher.onDidCreate(() => this.routeChanged());
           routeWatcher.onDidDelete(() => this.routeChanged());
+          this.output.appendLine("info: watching web.php");
         }
 
         const ziggyWatcher = vscode.workspace.createFileSystemWatcher(
@@ -50,6 +54,7 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
           ziggyWatcher.onDidCreate(() => this.filleChanged());
           ziggyWatcher.onDidDelete(() => this.filleChanged());
         });
+        this.output.appendLine("info: watching ziggy.js");
       }
     }
   }
@@ -97,14 +102,14 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
         " " +
         RouteProvider.workspacePath +
         "/artisan";
-      cp.exec(artisan + " route:clear", function (err) {
+      cp.exec(artisan + " route:clear", (err) => {
         if (err) {
-          console.error(err);
+          this.output.appendLine("error: unable to clear routes");
         }
       });
-      cp.exec(artisan + " ziggy:generate", function (err) {
+      cp.exec(artisan + " ziggy:generate", (err) => {
         if (err) {
-          console.error(err);
+          this.output.appendLine("error: unable to generate ziggy.js");
         }
       });
     }
@@ -123,9 +128,10 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
         RouteProvider.routes = Object.keys(
           requireFromString(result.code).Ziggy.routes
         );
+        this.output.appendLine("info: cached ziggy.js");
       }
     } catch (err) {
-      console.error(err);
+      this.output.appendLine("error: couldn't cache ziggy.js");
     }
   }
 }
