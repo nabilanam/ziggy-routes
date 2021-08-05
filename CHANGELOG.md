@@ -2,6 +2,17 @@
 
 All notable changes will be documented in this file.
 
+## [0.0.4] - 2021-08-05
+
+### Updated
+
+- regex pattern
+
+### Fixed
+
+- instantiating multiple output channel instead of one
+- multiple route providers being initialized
+
 ## [0.0.3] - 2021-08-04
 
 ### Fixed
