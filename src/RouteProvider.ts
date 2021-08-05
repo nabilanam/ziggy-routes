@@ -11,13 +11,12 @@ export default class RouteProvider implements vscode.CompletionItemProvider {
   private static ziggyPath = "";
   private static workspacePath = "";
   private static wordRegex = /[\w*\.\-\_]+/;
-  private static filterRegex =
-    /[^\w|\*`'"!#%^&\\/+-](?:route\()((?:'|")[\w*\.\-\_]+(?:'|"))?\)?;?/;
+  private static filterRegex = /\$?(?:route\()((?:'|")[\w*\.\-\_]+(?:'|"))?\)?/;
   private static routes: Array<string> = [];
   private output: vscode.OutputChannel;
 
-  constructor() {
-    this.output = vscode.window.createOutputChannel("Ziggy Routes");
+  constructor(output: vscode.OutputChannel) {
+    this.output = output;
 
     if (vscode.workspace.workspaceFolders !== undefined) {
       RouteProvider.workspacePath =
