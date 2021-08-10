@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## [0.0.5] - 2021-08-11
+
+### Added
+
+- support for `route().current()` and `route().has()` method
+
 ## [0.0.4] - 2021-08-05
 
 ### Updated

@@ -4,7 +4,7 @@
   "description": "Ziggy route completion for vscode",
   "icon": "images/icon.png",
   "publisher": "Nabil",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/nabilanam/ziggy-routes.git"
